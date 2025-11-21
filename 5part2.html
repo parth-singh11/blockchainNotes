@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Hyperledger Applications, Fabric Consensus & Sawtooth – Deep Notes</title>
+<style>
+  body {font-family: Arial, sans-serif; background:#ffffff; color:#111; line-height:1.6; padding:25px; max-width:900px; margin:auto;}
+  h1 {font-size:28px; margin-bottom:10px;}
+  h2 {font-size:22px; margin-top:28px;}
+  h3 {font-size:18px; margin-top:18px;}
+  p, li {font-size:15px;}
+  ul, ol {margin-left:20px;}
+  .box {background:#eef3ff; padding:15px; border-left:4px solid #3b82f6; margin:15px 0;}
+  .diagram {background:#f7f7f7; padding:15px; font-family:monospace; white-space:pre; border:1px solid #ccc; border-radius:5px; margin:10px 0;}
+
+  .header{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+    .header a{
+        font-family:'Times New Roman', Times, serif;
+        font-weight: bold;
+        color:#f7f8fb;
+        text-decoration: none;
+    }
+    .header button{
+        background-color: #111;
+        padding: 5px;
+        border-radius: 5px;
+    }
+</style>
+</head>
+<body>
+
+<div class="header" style="height: 50px; background-color: rgb(4, 80, 80); margin: 0px; padding: 0px;">
+ <button><a href="index.html">UNIT 3</a></button>
+ <button><a href="4part1.html">UNIT 4(1)</a></button>
+ <button><a href="4part2.html">UNIT 4(2)</a></button>
+ <button><a href="5part1.html">UNIT 5(1)</a></button>
+ <button><a href="5part2.html">UNIT 5(2)</a></button>
+</div>
+<h1>UNIT 5 : Part 2</h1>
+
+<h1>Hyperledger Applications, Fabric Consensus & Sawtooth – Detailed Notes + Diagrams</h1>
+<p>This section explains real-world blockchain applications, Hyperledger Fabric consensus, full transaction lifecycle, Fabric 2.0 upgrades, and Hyperledger Sawtooth architecture in easy, slow, clear detail.</p>
+
+<h2>1. Applications on Blockchain</h2>
+<p>Blockchain is useful where trust, transparency, immutability, and decentralization matter.</p>
+
+<h3>Major Application Areas:</h3>
+<ul>
+  <li><strong>Finance:</strong> cross-border payments, settlement, tokenization.</li>
+  <li><strong>Supply Chain:</strong> tracking goods end-to-end.</li>
+  <li><strong>Healthcare:</strong> secure patient records, data sharing.</li>
+  <li><strong>Government:</strong> land registry, ID systems.</li>
+  <li><strong>Retail:</strong> loyalty points, anti-counterfeit.</li>
+  <li><strong>IoT devices:</strong> trustless device coordination.</li>
+</ul>
+
+<div class="diagram">
+Applications
+  ├─ Finance
+  ├─ Supply Chain
+  ├─ Health
+  ├─ Government
+  └─ IoT
+</div>
+
+<h2>2. Consensus in Hyperledger Fabric</h2>
+<p>Fabric uses a unique model called "Execute–Order–Validate" (EOV), different from public blockchains.</p>
+
+<div class="diagram">
+Consensus Phases (Fabric):
+
+ Execute  →  Order  →  Validate
+</div>
+
+<h3>Phase 1: Execute</h3>
+<ul>
+  <li>Client sends proposal to peers.</li>
+  <li>Peers simulate transaction (no block yet).</li>
+  <li>Each peer signs the result → Proposal Response.</li>
+</ul>
+
+<h3>Phase 2: Order</h3>
+<p>Ordering service (Raft/Kafka) collects transactions and arranges them into blocks.</p>
+
+<h3>Phase 3: Validate</h3>
+<ul>
+  <li>Peers check endorsement policies.</li>
+  <li>Check if read/write sets conflict.</li>
+  <li>Commit valid transactions; mark invalid ones as failed.</li>
+</ul>
+
+<div class="box"><strong>Important:</strong> Fabric does NOT run smart contracts on all nodes. It executes only during proposal simulation.</div>
+
+<h2>3. The Transaction Lifecycle in Hyperledger Fabric</h2>
+
+<div class="diagram">
+Fabric Transaction Flow:
+
+ Client
+   ↓
+ Proposal to Peers
+   ↓
+ Endorsements Collected
+   ↓
+ Send to Ordering Service
+   ↓
+ Block Created
+   ↓
+ Validation by Peers
+   ↓
+ Ledger Update
+</div>
+
+<h3>Step-by-step (Detailed):</h3>
+<ol>
+  <li><strong>Client creates transaction proposal.</strong></li>
+  <li><strong>Endorsing peers simulate chaincode</strong> and generate read-write sets.</li>
+  <li><strong>Client collects endorsements</strong> as per policy.</li>
+  <li><strong>Client sends endorsed tx → ordering node.</strong></li>
+  <li><strong>Ordering node creates block</strong> and broadcasts to peers.</li>
+  <li><strong>Peers validate:</strong><br>– Endorsement policy OK?<br>– Read/write conflicts?<br>– Versioning check?</li>
+  <li><strong>Valid tx committed</strong> to ledger; invalid added with flag.</li>
+</ol>
+
+<h2>4. Fabric 2.0 – Major Improvements</h2>
+<p>Fabric v2.0 introduced big upgrades:</p>
+
+<h3>1. Decentralized Chaincode Governance</h3>
+<ul>
+  <li>Organizations approve chaincode definitions independently.</li>
+  <li>No single admin has control.</li>
+</ul>
+
+<h3>2. Private Data Enhancements</h3>
+<p>Efficient sharing of only required fields using collections.</p>
+
+<h3>3. New Chaincode Lifecycle</h3>
+<div class="diagram">
+Chaincode Lifecycle 2.0:
+  Package → Install → Approve → Commit → Use
+</div>
+
+<h3>4. Improved Performance</h3>
+<p>Better state database handling, caching, and faster endorsement.</p>
+
+<h2>5. Hyperledger Sawtooth (Deep Explanation)</h2>
+<p>Sawtooth is another enterprise blockchain under Hyperledger with modular architecture.</p>
+
+<h3>Core Features:</h3>
+<ul>
+  <li><strong>Modular consensus</strong> (can switch between PoET, PBFT).</li>
+  <li><strong>Transaction families</strong> (specialized smart contracts).</li>
+  <li><strong>Parallel transaction execution</strong>.</li>
+  <li><strong>On-chain governance</strong>.</li>
+</ul>
+
+<div class="diagram">
+Sawtooth Architecture:
+
+  +---------------------------+
+  |  REST API                 |
+  +---------------------------+
+  |  Transaction Processors   |
+  +---------------------------+
+  |  Validator (Core Logic)   |
+  +---------------------------+
+  |  Ledger (State + Blocks)  |
+  +---------------------------+
+</div>
+
+<h2>6. Consensus in Sawtooth</h2>
+<p>Sawtooth supports multiple consensus algorithms due to its modular design.</p>
+
+<h3>Main Consensus Options:</h3>
+<ul>
+  <li><strong>PoET (Proof of Elapsed Time):</strong> low energy; uses SGX trusted hardware.</li>
+  <li><strong>PBFT:</strong> classical Byzantine tolerance.</li>
+  <li><strong>Raft:</strong> for small private networks.</li>
+</ul>
+
+<div class="diagram">
+Consensus Layer:
+  ├─ PoET
+  ├─ PBFT
+  └─ Raft
+</div>
+
+<h2>7. Transaction Lifecycle in Sawtooth</h2>
+<p>Sawtooth uses a different flow compared to Fabric.</p>
+
+<div class="diagram">
+Sawtooth Transaction Flow:
+
+ Client
+   ↓
+ REST API
+   ↓
+ Validator
+   ↓
+ Transaction Processor
+   ↓
+ State Update
+</div>
+
+<h3>Full Steps:</h3>
+<ol>
+  <li><strong>Client submits transaction → REST API.</strong></li>
+  <li><strong>Validator checks</strong> signature + structure.</li>
+  <li><strong>Validator forwards tx</strong> to correct Transaction Processor Family.</li>
+  <li><strong>Transaction Processor executes</strong> business logic.</li>
+  <li><strong>State updated</strong> → new block created.</li>
+</ol>
+
+<h2>8. Components of Sawtooth</h2>
+<ul>
+  <li><strong>Validator:</strong> main coordinator of consensus + execution.</li>
+  <li><strong>REST API:</strong> interface for clients.</li>
+  <li><strong>Transaction Processors:</strong> custom smart contract logic.</li>
+  <li><strong>Ledger:</strong> state + blockchain history.</li>
+  <li><strong>Consensus Engine:</strong> modular consensus plug-in.</li>
+</ul>
+
+<div class="box">Sawtooth = Validator + Transaction Processor + REST API + Consensus Engine + Ledger</div>
+
+</body>
+</html>

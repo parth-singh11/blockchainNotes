@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Ethereum Advanced Concepts – Detailed Notes with Diagrams</title>
+<style>
+  body {font-family: Arial, sans-serif; background:#ffffff; color:#111; line-height:1.6; padding:25px; max-width:900px; margin:auto;}
+  h1 {font-size:28px; margin-bottom:10px;}
+  h2 {font-size:22px; margin-top:28px;}
+  h3 {font-size:18px; margin-top:18px;}
+  p, li {font-size:15px;}
+  ul, ol {margin-left:20px;}
+  .box {background:#eef3ff; padding:15px; border-left:4px solid #3b82f6; margin:15px 0;}
+  .diagram {background:#f7f7f7; padding:15px; font-family:monospace; white-space:pre; border:1px solid #ccc; border-radius:5px; margin:10px 0;}
+
+  .header{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+    .header a{
+        font-family:'Times New Roman', Times, serif;
+        font-weight: bold;
+        color:#f7f8fb;
+        text-decoration: none;
+    }
+    .header button{
+        background-color: #111;
+        padding: 5px;
+        border-radius: 5px;
+    }
+</style>
+</head>
+<body>
+
+<div class="header" style="height: 50px; background-color: rgb(4, 80, 80); margin: 0px; padding: 0px;">
+ <button><a href="index.html">UNIT 3</a></button>
+ <button><a href="4part1.html">UNIT 4(1)</a></button>
+ <button><a href="4part2.html">UNIT 4(2)</a></button>
+ <button><a href="5part1.html">UNIT 5(1)</a></button>
+ <button><a href="5part2.html">UNIT 5(2)</a></button>
+</div>
+
+<h1>UNIT 4 : Part 2</h1>
+
+<h1>Ethereum Advanced Concepts – Detailed Notes + Diagrams</h1>
+<p>This document explains deeper Ethereum concepts with clear diagrams and slow, simple explanations.</p>
+
+<h2>1. Ether Cryptocurrency & Tokens (ETH vs ETC)</h2>
+<h3>ETH – Ether (Ethereum Main Currency)</h3>
+<ul>
+  <li>Native cryptocurrency of Ethereum blockchain.</li>
+  <li>Used for:<br>– Gas fees<br>– Smart contract execution<br>– Staking (Validators)<br>– Payments</li>
+</ul>
+
+<h3>ETC – Ethereum Classic</h3>
+<p>ETC is the cryptocurrency of the original Ethereum chain that did NOT reverse the DAO hack (2016). ETH and ETC split due to a disagreement about immutability.</p>
+
+<div class="diagram">
+ETH ↔ (Hard Fork after DAO Hack) ↔ ETC
+</div>
+
+<ul>
+  <li><strong>ETH:</strong> Main Ethereum chain (Proof-of-Stake)</li>
+  <li><strong>ETC:</strong> Old chain (Proof-of-Work)</li>
+</ul>
+
+<h2>2. The Ethereum Virtual Machine (EVM)</h2>
+<p>The EVM is the "brain" of Ethereum. It processes smart contracts and updates the global state.</p>
+
+<div class="diagram">
+        +-----------------------------+
+        |        Ethereum Node        |
+        |  +-----------------------+  |
+        |  |         EVM           |  |
+        |  |  (Executes contracts) |  |
+        |  +-----------------------+  |
+        +-----------------------------+
+</div>
+
+<h3>Key features of EVM:</h3>
+<ul>
+  <li>Stack-based machine (like a calculator stack)</li>
+  <li>Runs bytecode generated from Solidity/Vyper</li>
+  <li>Deterministic (same input → same output)</li>
+  <li>Isolated from node OS for security</li>
+</ul>
+
+<h2>3. Execution Environment</h2>
+<p>The execution environment defines everything the EVM needs to process a smart contract:</p>
+<ul>
+  <li>Gas price & gas limit</li>
+  <li>Block information (timestamp, coinbase, number)</li>
+  <li>Caller (msg.sender)</li>
+  <li>Available balance</li>
+  <li>Smart contract code</li>
+</ul>
+
+<div class="diagram">
+Execution Environment = { 
+   Block Info,
+   Transaction Info,
+   Gas Info,
+   Contract Code,
+   Message Data
+}
+</div>
+
+<h2>4. Machine State</h2>
+<p>The machine state changes during execution. It represents the local EVM state while processing a transaction.</p>
+
+<h3>Machine State Contains:</h3>
+<ul>
+  <li><strong>Stack</strong> (max 1024 items)</li>
+  <li><strong>Memory</strong> (temporary, per execution)</li>
+  <li><strong>PC (Program Counter)</strong></li>
+  <li><strong>Gas Remaining</strong></li>
+</ul>
+
+<div class="diagram">
+Machine State:
+  ├─ Stack
+  ├─ Memory
+  ├─ Program Counter
+  └─ Gas Left
+</div>
+
+<h2>5. The Iterator Function (Yellow Paper)</h2>
+<p>The iterator function (also called the <strong>instruction cycle</strong>) defines how the EVM processes one instruction at a time.</p>
+
+<div class="diagram">
+Instruction Cycle:
+
+  1. Fetch instruction
+  2. Decode instruction
+  3. Deduct gas
+  4. Execute
+  5. Update machine state
+  6. Move to next instruction
+</div>
+
+<p>This repeats until:</p>
+<ul>
+  <li>Program ends</li>
+  <li>Gas runs out</li>
+  <li>Execution reverts</li>
+</ul>
+
+<h2>6. Smart Contracts (Deep Explanation)</h2>
+<p>Smart contracts are programs stored at a blockchain address. They execute exactly as written.</p>
+
+<h3>Smart Contract Structure:</h3>
+<ul>
+  <li>Contract bytecode (compiled from Solidity/Vyper)</li>
+  <li>Storage (persistent key-value database)</li>
+  <li>Functions</li>
+  <li>Events (logs)</li>
+</ul>
+
+<div class="diagram">
+Contract Account:
+   ├─ Code (bytecode)
+   ├─ Storage (permanent)
+   ├─ Balance
+   └─ Nonce
+</div>
+
+<h3>How a Contract is Created:</h3>
+<ol>
+  <li>EOA sends a "contract creation transaction" with bytecode in data field</li>
+  <li>EVM executes constructor</li>
+  <li>Contract gets an address</li>
+  <li>Bytecode stored on chain</li>
+</ol>
+
+<h2>7. Native Contracts</h2>
+<p>Native contracts are <strong>precompiled contracts</strong> built directly into Ethereum for efficiency. They are not written in Solidity.</p>
+
+<h3>Examples (at fixed addresses):</h3>
+<ul>
+  <li>0x01 – ECRecover (recover public key from signature)</li>
+  <li>0x02 – SHA256 hash</li>
+  <li>0x03 – RIPEMD160 hash</li>
+  <li>0x04 – Identity function</li>
+</ul>
+
+<div class="diagram">
+Precompiled Contracts:
+
+   Address   | Function
+   --------- |-------------------------
+   0x01      | ECDSA Recover
+   0x02      | SHA256
+   0x03      | RIPEMD160
+   0x04      | Identity
+</div>
+
+<p>They run much faster than executing equivalent code in Solidity, reducing gas cost.</p>
+
+<h2>Summary</h2>
+<ul>
+  <li>ETH = Main Ethereum currency; ETC = old chain</li>
+  <li>EVM = executes smart contract bytecode</li>
+  <li>Execution environment = all inputs required by EVM</li>
+  <li>Machine state changes instruction-by-instruction</li>
+  <li>Iterator function = EVM instruction cycle</li>
+  <li>Smart contracts = blockchain programs</li>
+  <li>Native contracts = built-in optimized functions</li>
+</ul>
+
+</body>
+</html>

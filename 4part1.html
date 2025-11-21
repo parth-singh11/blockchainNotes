@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Ethereum – Easy & Detailed Notes</title>
+<style>
+  body {font-family: Arial, sans-serif; background:#ffffff; color:#111; line-height:1.6; padding:25px; max-width:900px; margin:auto;}
+  h1 {font-size:28px; margin-bottom:10px;}
+  h2 {font-size:22px; margin-top:28px;}
+  h3 {font-size:18px; margin-top:18px;}
+  p, li {font-size:15px;}
+  ul, ol {margin-left:20px;}
+  .box {background:#f2f5f9; padding:15px; border-left:4px solid #3b82f6; margin:15px 0;}
+
+  .header{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+    .header a{
+        font-family:'Times New Roman', Times, serif;
+        font-weight: bold;
+        color:#f7f8fb;
+        text-decoration: none;
+    }
+    .header button{
+        background-color: #111;
+        padding: 5px;
+        border-radius: 5px;
+    }
+</style>
+</head>
+<body>
+
+<div class="header" style="height: 50px; background-color: rgb(4, 80, 80); margin: 0px; padding: 0px;">
+ <button><a href="index.html">UNIT 3</a></button>
+ <button><a href="4part1.html">UNIT 4(1)</a></button>
+ <button><a href="4part2.html">UNIT 4(2)</a></button>
+ <button><a href="5part1.html">UNIT 5(1)</a></button>
+ <button><a href="5part2.html">UNIT 5(2)</a></button>
+</div>
+<h1>UNIT 4 : Part 1</h1>
+<h1>Ethereum – Extremely Easy & Detailed Notes</h1>
+<p>This document explains **Ethereum from zero**, slowly and clearly, without any fancy formatting. Pure exam-friendly notes.</p>
+
+<h2>1. What is Ethereum?</h2>
+<p>Ethereum is a **decentralized programmable blockchain**. Unlike Bitcoin (which mainly transfers money), Ethereum allows running programs called **smart contracts**.</p>
+<ul>
+  <li>Uses **Ether (ETH)** as its currency.</li>
+  <li>Smart contracts run on thousands of computers globally.</li>
+  <li>Provides a trustless way to execute applications.</li>
+</ul>
+
+<div class="box"><strong>Simple meaning:</strong> Ethereum = global computer + money + apps running without central control.</div>
+
+<h2>2. The Yellow Paper (Formal Definition of Ethereum)</h2>
+<p>The Yellow Paper is a technical document written by Gavin Wood. It defines:</p>
+<ul>
+  <li>How blocks are structured</li>
+  <li>How Ethereum updates its state</li>
+  <li>How smart contracts run in the Ethereum Virtual Machine (EVM)</li>
+  <li>How gas fees are calculated</li>
+</ul>
+<p>It covers Ethereum mathematically so all implementations behave identically.</p>
+
+<h3>Important Concepts from Yellow Paper</h3>
+<ul>
+  <li><strong>World State:</strong> All account balances + contract storage.</li>
+  <li><strong>Account Object:</strong> nonce, balance, codeHash, storageRoot.</li>
+  <li><strong>State Transition Function (Π):</strong> Defines how state changes after each transaction.</li>
+</ul>
+
+<h2>3. Ethereum from a User’s Perspective</h2>
+<p>From a normal user or developer’s perspective, Ethereum works like this:</p>
+<ol>
+  <li>User has a **wallet** (Metamask, Trust Wallet, Ledger).</li>
+  <li>User sends a **transaction** (send ETH or call a smart contract).</li>
+  <li>They pay **gas fee**.</li>
+  <li>Validators include the transaction into a block.</li>
+  <li>The network updates Ethereum’s global state.</li>
+</ol>
+
+<h3>Example:</h3>
+<p>If you transfer 1 ETH to a friend:</p>
+<ol>
+  <li>You sign the transaction with your private key.</li>
+  <li>Validators check your signature + balance.</li>
+  <li>State updates: your balance –1 ETH, friend +1 ETH.</li>
+</ol>
+
+<h2>4. Ethereum Network Types</h2>
+<h3>A. Mainnet</h3>
+<p>The real Ethereum blockchain. ETH has real value.</p>
+
+<h3>B. Testnets</h3>
+<p>Used for testing, with free ETH:</p>
+<ul>
+  <li><strong>Goerli</strong> – major testnet</li>
+  <li><strong>Sepolia</strong> – fast, lightweight testnet</li>
+</ul>
+
+<h3>C. Private Networks</h3>
+<p>Run inside organizations. No real ETH needed. Used for experiments.</p>
+
+<h2>5. Components of the Ethereum Ecosystem</h2>
+<ul>
+  <li><strong>Clients:</strong> Geth, Nethermind (software running Ethereum protocol)</li>
+  <li><strong>Wallets:</strong> MetaMask, hardware wallets</li>
+  <li><strong>Smart Contracts:</strong> Code stored and executed on Ethereum</li>
+  <li><strong>DApps:</strong> Apps that use Ethereum smart contracts</li>
+  <li><strong>Oracles:</strong> Provide external data (weather, price feeds)</li>
+  <li><strong>Layer 2:</strong> Rollups to improve speed and reduce fees</li>
+</ul>
+
+<h2>6. Keys & Addresses</h2>
+<h3>Private Key</h3>
+<p>A secret number. Whoever knows it controls your account.</p>
+
+<h3>Public Key</h3>
+<p>Derived from private key.</p>
+
+<h3>Address</h3>
+<p>Last 20 bytes of Keccak256(public key). Example: <code>0xA3b...d91</code></p>
+<div class="box">Address = Public identity<br>Private key = Password to spend ETH</div>
+
+<h2>7. Accounts in Ethereum</h2>
+<h3>A. Externally Owned Accounts (EOA)</h3>
+<ul>
+  <li>Controlled by a private key</li>
+  <li>Can sign transactions</li>
+  <li>No smart contract code</li>
+</ul>
+
+<h3>B. Contract Accounts</h3>
+<ul>
+  <li>Contain smart contract code</li>
+  <li>Cannot send transactions themselves</li>
+  <li>Triggered by EOA transactions</li>
+</ul>
+
+<h2>8. Transactions</h2>
+<p>A transaction is a signed message that changes the state of Ethereum.</p>
+<h3>Fields inside a transaction:</h3>
+<ul>
+  <li>nonce</li>
+  <li>gasLimit</li>
+  <li>maxFeePerGas / gasPrice</li>
+  <li>to (address)</li>
+  <li>value (ETH)</li>
+  <li>data (smart contract function call)</li>
+  <li>signature (v,r,s)</li>
+</ul>
+
+<h3>Types of Transactions</h3>
+<ul>
+  <li>Send ETH</li>
+  <li>Deploy a smart contract</li>
+  <li>Call a smart contract function</li>
+</ul>
+
+<h2>9. Messages in Ethereum (Internal Calls)</h2>
+<p>Messages are <strong>not signed</strong>. They are created by smart contracts when:</p>
+<ul>
+  <li>Contract A calls Contract B</li>
+  <li>Contract A sends ETH to Contract B</li>
+</ul>
+<p>These happen <strong>inside</strong> a transaction.</p>
+
+<h2>10. EVM (Ethereum Virtual Machine)</h2>
+<p>The EVM executes smart contracts.</p>
+<ul>
+  <li>Stack-based machine</li>
+  <li>Memory for temporary data</li>
+  <li>Storage for permanent contract data</li>
+  <li>Instructions called opcodes (e.g. ADD, MUL, CALL, SSTORE)</li>
+</ul>
+
+<h2>11. Gas (Important)</h2>
+<p>Gas measures how much computation a transaction needs.</p>
+<ul>
+  <li>Every instruction costs gas</li>
+  <li>If gas runs out → transaction fails</li>
+  <li>Unused gas is refunded</li>
+</ul>
+<div class="box">Gas fee = gasUsed × gasPrice</div>
+
+<h2>12. Blocks & Finality</h2>
+<p>Blocks contain:</p>
+<ul>
+  <li>block number</li>
+  <li>timestamp</li>
+  <li>transactions</li>
+  <li>stateRoot</li>
+</ul>
+<p><strong>Finality</strong> means a block cannot be reversed. In Ethereum PoS, finality happens after validator confirmations.</p>
+
+<h2>13. Validators & Staking</h2>
+<p>Validators:</p>
+<ul>
+  <li>Stake 32 ETH</li>
+  <li>Propose blocks</li>
+  <li>Vote on blocks</li>
+  <li>Can be slashed for cheating</li>
+</ul>
+
+<h2>14. Logs & Events</h2>
+<p>Smart contracts can emit logs. These are used for:</p>
+<ul>
+  <li>Tracking transfers</li>
+  <li>Front-end dapp updates</li>
+</ul>
+
+<h2>15. Summary</h2>
+<ul>
+  <li>Ethereum = programmable blockchain</li>
+  <li>Yellow Paper = protocol rules</li>
+  <li>Users interact via wallets & transactions</li>
+  <li>Mainnet/Testnet/Private networks exist</li>
+  <li>Accounts = EOA + Contract accounts</li>
+  <li>EVM runs smart contract code</li>
+  <li>Gas prevents spam and rewards validators</li>
+  <li>Validators secure Ethereum through staking</li>
+</ul>
+
+
+</body>
+</html>
